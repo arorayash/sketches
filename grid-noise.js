@@ -8,7 +8,7 @@ const settings = {
 };
 
 const sketch = () => {
-  const count = 50;
+  const count = 25;
   const margin = 200;
   const colors = random.pick(palette);
 
@@ -45,7 +45,7 @@ const sketch = () => {
       context.font = `${radius * width}px Helvetica`;
       context.translate(x, y);
       context.rotate(rotation);
-      context.fillText("▷", 0, 0);
+      context.fillText("—", 0, 0);
       context.restore();
     });
   };
