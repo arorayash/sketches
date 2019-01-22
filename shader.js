@@ -1,10 +1,10 @@
-const canvasSketch = require('canvas-sketch');
-const createShader = require('canvas-sketch-util/shader');
-const glsl = require('glslify');
+const canvasSketch = require("canvas-sketch");
+const createShader = require("canvas-sketch-util/shader");
+const glsl = require("glslify");
 
 // Setup our sketch
 const settings = {
-  context: 'webgl',
+  context: "webgl",
   animate: true
 };
 
@@ -17,7 +17,7 @@ const frag = glsl(`
 
   void main () {
     vec3 color = 0.5 + 0.5 * cos(time + vUv.xyx + vec3(0.0, 2.0, 4.0));
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(vUv.x, 1,  vUv.y, 1.0);
   }
 `);
 
