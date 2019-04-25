@@ -1,0 +1,27 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script id="shader-vs" type="x-shader/x-vertex">
+        attribute vec4 coords;
+        attribute float pointSize;
+        void main(void) {
+            gl_Position = coords;
+            gl_PointSize = pointSize;
+        }
+    </script>
+    <script id="shader-fs" type="x-shader/x-fragment">
+        precision mediump float;
+        uniform vec4 color;
+        void main(void) {
+            gl_FragColor = color;
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" height="600px" width="600px" />
+    <script src="./script1.js"></script>
+</body>
+</html>
