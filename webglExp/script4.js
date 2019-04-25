@@ -1,10 +1,13 @@
-var gl, shaderProgram
+var gl, shaderProgram, vertices
 
 // Vertices - points in 3D space
 // Shaders - which define how the vertices are interpreted and rendered on the screen
 
 // The params should not be hard-coded, compiling the shaders again for a different set of values
 // Ideally, Shaders should be dynamic programs, which depend upon the params passed into them - use attributes for the same
+
+// Vertex Buffers
+// - An array of vertices stored in memory on the GPU
 
 const initGl = () => {
   const canvas = document.getElementById("canvas")
@@ -22,7 +25,8 @@ const initGl = () => {
 const draw = () => {
   // data about the wegGl states is stored in memory locations called buffers. Eg, COLOR_BUFFER_BIT
   gl.clear(gl.COLOR_BUFFER_BIT)
-  gl.drawArrays(gl.POINTS, 0, 1)
+  // last arg defines how many times to draw
+  gl.drawArrays(gl.POINTS, 0, 3)
 }
 
 const createShaders = () => {
@@ -74,10 +78,25 @@ const createShaders = () => {
 }
 
 const createVertices = () => {
+  vertices = [-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0]
+
+  // Create the buffer
+  let buffer = gl.createBuffer()
+  // Bind the buffer to a target - setting the buffer as target of future buffer operations
+  // For different buffers, there are different buffer targets. Here, buffer target => ARRAY_BUFFER
+  // Float32Array => an array of 32-bit floating point values
+  // STATIC_DRAW - we'll be using the values often, but they won't be changing much, there are different type that can be passed depending on the use case
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW)
+
   // Getting coords and setting it to a different value
   let coords = gl.getAttribLocation(shaderProgram, "coords")
-  // vertexAttrib3f supplies the value of w as 1 by default
-  gl.vertexAttrib3f(coords, 0.0, 0.5, 0.0)
+  // Don't need to mention the buffer again here as it's already bound
+  // 3 - each vertex will have three values
+  gl.vertexAttribPointer(coords, 3, gl.FLOAT, false, 0, 0)
+  gl.enableVertexAttribArray(coords)
+  // Since the work of buffer is done, unbind it
+  gl.bindBuffer(gl.ARRAY_BUFFER, null)
 
   let pointSize = gl.getAttribLocation(shaderProgram, "pointSize")
   gl.vertexAttrib1f(pointSize, 20.0)
